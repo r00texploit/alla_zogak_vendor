@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:google_fonts_arabic/fonts.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -50,8 +51,14 @@ class SplashScreenState extends State<SplashScreen> {
               "assets/logo.png",
               width: MediaQuery.of(context).size.width / 2,
             ),
-            const Text("تاجر",style:TextStyle(fontSize: 40)),
-            const Divider(thickness: 5,color: Colors.yellow,indent: 120,endIndent: 120,)
+            const Text(
+              "تاجر",
+            style:TextStyle(
+              fontSize: 50,
+              fontFamily: ArabicFonts.Amiri,
+              package: 'google_fonts_arabic',)
+              ),
+            const Divider(thickness: 5,color: Colors.yellow,indent: 130,endIndent: 130,)
           ],
         ),
       ),
