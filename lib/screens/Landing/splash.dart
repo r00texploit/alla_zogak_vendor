@@ -51,7 +51,7 @@ class SplashScreenState extends State<SplashScreen> {
               width: MediaQuery.of(context).size.width / 2,
             ),
             const Text("تاجر",style:TextStyle(fontSize: 40)),
-            const Divider(thickness: 5,color: Colors.yellow,indent: 100,endIndent: 100,)
+            const Divider(thickness: 5,color: Colors.yellow,indent: 120,endIndent: 120,)
           ],
         ),
       ),
