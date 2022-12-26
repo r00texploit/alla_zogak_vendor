@@ -217,13 +217,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.0.3"
-  google_fonts_arabic:
+  google_fonts:
     dependency: "direct main"
     description:
-      name: google_fonts_arabic
+      name: google_fonts
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.7"
+    version: "3.0.1"
   http:
     dependency: "direct main"
     description:
