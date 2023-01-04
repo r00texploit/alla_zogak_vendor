@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,6 +25,7 @@ Future<ResponseModel> login(Map<String, dynamic> data) async {
 
 Future<ResponseModel> getMyProfile() async {
   try {
+    final resp;
     final sh = await SharedPreferences.getInstance();
     final res = await dio.get(
       "/vendor/get-profile",
@@ -30,6 +33,10 @@ Future<ResponseModel> getMyProfile() async {
         headers: {"token": sh.getString("token")},
       ),
     );
+    if (kDebugMode) {
+       resp=jsonDecode(res.body);
+      print(resp.data['code']);
+      }
     return ResponseModel.fromJson(res.data);
   } catch (e) {
     if (e is DioError) {

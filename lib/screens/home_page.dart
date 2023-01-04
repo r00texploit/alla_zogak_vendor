@@ -1,8 +1,10 @@
+import 'package:alla_zogak_vendor/models/vendors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:alla_zogak_vendor/api/category_service.dart';
 import 'package:alla_zogak_vendor/models/categories.dart';
 import 'package:alla_zogak_vendor/widgets/add_product.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../models/response_model.dart';
 import '../widgets/bottom_Item.dart';
 import '../widgets/category_card.dart';
@@ -163,6 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(8.0),

@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'package:alla_zogak_vendor/widgets/change_phone.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
@@ -34,8 +35,12 @@ class _MyProfileState extends State<MyProfile> {
 
   Future<void> _initProfile() async {
     try {
+    
       ResponseModel resp = await getMyProfile();
       vendor = Vendors.fromJson(resp.data);
+     
+      
+      
     } catch (e) {
       if (kDebugMode) {
         print(e);
@@ -84,6 +89,7 @@ class _MyProfileState extends State<MyProfile> {
                 }
               case ConnectionState.done:
                 {
+                  
                   return SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.all(20.0),
@@ -218,7 +224,8 @@ class _MyProfileState extends State<MyProfile> {
     );
   }
 
-  Widget _getHeader() {
+  Padding _getHeader()  {
+    
     return Padding(
         padding: const EdgeInsetsDirectional.only(bottom: 10.0, top: 10),
         child: Row(
@@ -242,10 +249,20 @@ class _MyProfileState extends State<MyProfile> {
                           ),
                         ),
                         child: ClipRRect(
-                          borderRadius: BorderRadius.circular(100.0),
-                          child: Image.network(
-                            'https://yoo2.smart-node.net${vendor?.avatar}',
-                            errorBuilder: (context, error, stackTrace) =>
+                          borderRadius: BorderRadius.circular(50),
+                           child:
+                          CachedNetworkImage(
+                            
+                            imageUrl:
+                                "https://yoo2.smart-node.net${vendor?.avatar}",
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) =>
+                                    CircularProgressIndicator(
+                                        value: downloadProgress.progress),
+
+                            // Image.network(
+                            //   'https://yoo2.smart-node.net${vendor?.avatar}',
+                            errorWidget: (context, error, stackTrace) =>
                                 CircleAvatar(
                               backgroundColor: Colors.white54,
                               child: Icon(
@@ -284,7 +301,7 @@ class _MyProfileState extends State<MyProfile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'مرحباً, ${vendor?.name.toUpperCase()}',
+                      'مرحباً, ${vendor?.name}',
                       style: Theme.of(context).textTheme.subtitle1!.copyWith(
                           color: Colors.black,
                           fontWeight: FontWeight.bold,
@@ -320,7 +337,10 @@ class _MyProfileState extends State<MyProfile> {
           dense: true,
           title: Text(
             text,
-            style: TextStyle(fontSize: 15,color: Colors.grey[800],),
+            style: TextStyle(
+              fontSize: 15,
+              color: Colors.grey[800],
+            ),
           ),
           leading: Container(
             padding: const EdgeInsets.all(5),

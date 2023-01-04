@@ -159,7 +159,7 @@ class ResetPasswordScreenState extends State<ResetPasswordScreen> {
       appBar: AppBar(
         title: const Text("إستعادة الحساب"),
       ),
-      backgroundColor: Theme.of(context).primaryColor,
+      backgroundColor: Colors.white,
       body: Center(
         child: SingleChildScrollView(
           child: Stack(

@@ -213,7 +213,7 @@ class LoginScreenState extends State<LoginScreen> {
                                           builder: (context) =>
                                               const ResetPasswordScreen()));
                                 },
-                                child: Text(
+                                child: const Text(
                                   "تغيير الرمز السري",
                                   style: TextStyle(),
                                 ),
