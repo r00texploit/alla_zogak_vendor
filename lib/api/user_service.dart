@@ -34,7 +34,7 @@ Future<ResponseModel> getMyProfile() async {
       ),
     );
     if (kDebugMode) {
-       resp=jsonDecode(res.body);
+       resp=jsonDecode(res.data);
       print(resp.data['code']);
       }
     return ResponseModel.fromJson(res.data);

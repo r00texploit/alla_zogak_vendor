@@ -1,10 +1,14 @@
+import 'dart:developer';
+
 import 'package:alla_zogak_vendor/models/category_option_values.dart';
 import 'package:alla_zogak_vendor/models/product_option_values.dart';
+import 'package:alla_zogak_vendor/widgets/custome.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart' as color_picker;
+import 'package:multiselect/multiselect.dart';
 import 'package:select_form_field/select_form_field.dart';
 import '../models/product_images.dart';
 import 'image_selector.dart';
@@ -27,6 +31,8 @@ class AddUpdateProductOption extends StatefulWidget {
   @override
   State<AddUpdateProductOption> createState() => _AddUpdateProductOptionState();
 }
+
+CategoryOptionValues? vsl;
 
 class _AddUpdateProductOptionState extends State<AddUpdateProductOption> {
   bool loading = false;
@@ -62,12 +68,20 @@ class _AddUpdateProductOptionState extends State<AddUpdateProductOption> {
     super.initState();
   }
 
+// CustomMultiselectDropDown customMultiselectDropDown = CustomMultiselectDropDown();
+  List<CategoryOptionValues> selected = [];
+
   submit() async {
     final valid = _key.currentState?.validate();
     if (valid == true) {
       setState(() {
         loading = true;
       });
+      log("vsl:$vsl");
+
+      // log("_controller:${_controller.text}");
+      // _controller.text = getselected().toString();
+      // log("getselected:${_controller.text}");
       try {
         if (widget.newOption != null) {
           final val = await widget.newOption!({
@@ -318,25 +332,56 @@ class _AddUpdateProductOptionState extends State<AddUpdateProductOption> {
                     children: [
                       SizedBox(
                         width: MediaQuery.of(context).size.width * .88,
-                        child: SelectFormField(
-                          type: SelectFormFieldType.dropdown,
-                          controller: _controller,
-                          labelText: 'الوحدة',
-                          autovalidate: true,
-                          validator: (value) => null,
-                          items: List.generate(
-                              widget.catsOptionValues.length,
-                              (i) => {
-                                    'value': widget.catsOptionValues[i].id
-                                        .toString(),
-                                    'label': widget.catsOptionValues[i].value,
-                                  }),
-                          onSaved: (val) {
-                            if (kDebugMode) {
-                              print(val);
+                        child: CustomMultiselectDropDown(
+                          listOFStrings: widget.catsOptionValues,
+                          selectedList: (
+                            List<CategoryOptionValues> x,
+                          ) {
+                            for (var e = 0; e < x.length; e++) {
+                              log("x:${x.elementAt(e).value}");
+                              // String y = x.elementAt(e).value;
+                              vsl = x.elementAt(e);
+
+                              setState(() {});
                             }
+                            selected.addAll(x);
+                            log("x:${vsl!.value}");
+                            log("x:${selected.elementAt(0).value}");
                           },
                         ),
+                        //                 DropDownMultiSelect(
+                        //   onChanged: (List<dynamic> x) {
+                        //     setState(() {
+                        //       selected =x;
+                        //     });
+
+                        // ListView.builder(
+                        // itemCount: _ProductList.length,
+                        // itemBuilder: (BuildContext context, int index) { return
+                        //   },
+                        //   options: widget.catsOptionValues.toString().toList() ,
+                        //   selectedValues: widget.catsOptionValues[selected].value,
+                        //   whenEmpty: 'Select Something',
+                        // ),
+                        // SelectFormField(
+                        //   type: SelectFormFieldType.dropdown,
+                        //   controller: _controller,
+                        //   labelText: 'الوحدة',
+                        //   autovalidate: true,
+                        //   validator: (value) => null,
+                        //   items: List.generate(
+                        //       widget.catsOptionValues.length,
+                        //       (i) => {
+                        //             'value': widget.catsOptionValues[i].id
+                        //                 .toString(),
+                        //             'label': widget.catsOptionValues[i].value,
+                        //           }),
+                        //   onSaved: (val) {
+                        //     if (kDebugMode) {
+                        //       print(val);
+                        //     }
+                        //   },
+                        // ),
                       ),
                     ],
                   ),
@@ -364,7 +409,9 @@ class _AddUpdateProductOptionState extends State<AddUpdateProductOption> {
                     height: 15,
                   ),
                   ElevatedButton.icon(
-                    onPressed: () => loading ? {} : submit(),
+                    onPressed: () {
+                      loading ? {} : debugsubmit();
+                    },
                     icon: loading
                         ? const Padding(
                             padding: EdgeInsets.all(3.0),
@@ -382,5 +429,14 @@ class _AddUpdateProductOptionState extends State<AddUpdateProductOption> {
         ),
       ],
     );
+  }
+
+  debugsubmit() {
+    try {
+      submit();
+      log("nothing");
+    } on Exception catch (_, e) {
+      log("message${e.toString()}");
+    }
   }
 }

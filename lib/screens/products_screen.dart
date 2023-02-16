@@ -44,71 +44,84 @@ class _ProductsScreenState extends State<ProductsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            bottomLeft: Radius.circular(15),
-            bottomRight: Radius.circular(15),
+        appBar: AppBar(
+          elevation: 0,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(15),
+              bottomRight: Radius.circular(15),
+            ),
           ),
-        ),
-        title: Text(
-          widget.category.nameAr,
-          style: const TextStyle(
-            fontSize: 25,
-            fontWeight: FontWeight.bold,
-            color: Colors.grey,
+          title: Text(
+            widget.category.nameAr,
+            style: const TextStyle(
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+              color: Colors.grey,
+            ),
           ),
+          centerTitle: true,
         ),
-        centerTitle: true,
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: FutureBuilder(
-          future: _initProductsData,
-          builder: (c, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.none:
-              case ConnectionState.waiting:
-              case ConnectionState.active:
-                {
-                  return const Center(
-                    child: CircularProgressIndicator(),
-                  );
-                }
-              case ConnectionState.done:
-                {
-                  if (_ProductList.isEmpty) {
-                    return const Center(
-                      child: Text("You did not add any products"),
-                    );
-                  }
-                  return RefreshIndicator(
-                    onRefresh: () => _refreshMyProducts(),
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.height,
-                      child: Wrap(
-                        children: List.generate(
-                          _ProductList.length,
-                          (i) => Padding(
-                            padding: const EdgeInsets.all(5.0),
+        body: ScrollConfiguration(
+            behavior: CustomScrollBehavior(),
+            child: SingleChildScrollView(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: FutureBuilder(
+                  future: _initProductsData,
+                  builder: (c, snapshot) {
+                    switch (snapshot.connectionState) {
+                      case ConnectionState.none:
+                      case ConnectionState.waiting:
+                      case ConnectionState.active:
+                        {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      case ConnectionState.done:
+                        {
+                          if (_ProductList.isEmpty) {
+                            return const Center(
+                              child: Text("You did not add any products"),
+                            );
+                          }
+                          return RefreshIndicator(
+                            onRefresh: () => _refreshMyProducts(),
                             child: SizedBox(
-                              width: MediaQuery.of(context).size.width / 2 - 20,
-                              child: ProductCard(
-                                product: _ProductList[i],
+                              width: MediaQuery.of(context).size.width,
+                              height: MediaQuery.of(context).size.height,
+                              child: Wrap(
+                                children: List.generate(
+                                  _ProductList.length,
+                                  (i) => Padding(
+                                    padding: const EdgeInsets.all(5.0),
+                                    child: SizedBox(
+                                      width: MediaQuery.of(context).size.width /
+                                              2 -
+                                          20,
+                                      child: ProductCard(
+                                        product: _ProductList[i],
+                                      ),
+                                    ),
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  );
-                }
-            }
-          },
-        ),
-      ),
-    );
+                          );
+                        }
+                    }
+                  },
+                ),
+              ),
+            )));
+  }
+}
+
+class CustomScrollBehavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(
+      BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
   }
 }
