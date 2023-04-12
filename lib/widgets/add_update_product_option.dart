@@ -9,7 +9,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart' as color_picker;
 import 'package:multiselect/multiselect.dart';
-import 'package:select_form_field/select_form_field.dart';
+// import 'package:select_form_field/select_form_field.dart';
 import '../models/product_images.dart';
 import 'image_selector.dart';
 
@@ -42,6 +42,8 @@ class _AddUpdateProductOptionState extends State<AddUpdateProductOption> {
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   Map? color;
 
+
+
   @override
   void initState() {
     if (widget.productOptionValues != null) {
@@ -70,6 +72,16 @@ class _AddUpdateProductOptionState extends State<AddUpdateProductOption> {
 
 // CustomMultiselectDropDown customMultiselectDropDown = CustomMultiselectDropDown();
   List<CategoryOptionValues> selected = [];
+  List<String> list = [];
+  List<String>? selectedlist() {
+    for (var i = 0; i < selected.length; i++) {
+      setState(() {
+        list.add(selected.elementAt(i).value);
+      });
+      log("list:${list[i]}");
+    }
+    return list;
+  }
 
   submit() async {
     final valid = _key.currentState?.validate();
@@ -77,7 +89,8 @@ class _AddUpdateProductOptionState extends State<AddUpdateProductOption> {
       setState(() {
         loading = true;
       });
-      log("vsl:$vsl");
+      // selected.map((e) => print(e.value));
+      // log("vsl:${}");
 
       // log("_controller:${_controller.text}");
       // _controller.text = getselected().toString();
@@ -88,7 +101,7 @@ class _AddUpdateProductOptionState extends State<AddUpdateProductOption> {
             "colors": color,
             "product_image_id": widget.prodImages[initImage].id,
             "qty": double.parse(_qty.text).floor(),
-            "value": _controller.text,
+            "value": list,
           });
           if (val) {
             setState(() {
@@ -337,16 +350,23 @@ class _AddUpdateProductOptionState extends State<AddUpdateProductOption> {
                           selectedList: (
                             List<CategoryOptionValues> x,
                           ) {
-                            for (var e = 0; e < x.length; e++) {
-                              log("x:${x.elementAt(e).value}");
-                              // String y = x.elementAt(e).value;
-                              vsl = x.elementAt(e);
-
-                              setState(() {});
+                            // for (var e = 0; e < x.length; e++) {
+                            // log("x:${x.elementAt(e).value}");
+                            // String y = x.elementAt(e).value;
+                            // vsl = x.elementAt(e);
+                            for (var i = 0; i < selected.length; i++) {
+                              setState(() {
+                                list.add(x.elementAt(i).value);
+                                log("list:${list[i]}");
+                              });
                             }
-                            selected.addAll(x);
-                            log("x:${vsl!.value}");
-                            log("x:${selected.elementAt(0).value}");
+                            // setState(() {
+                            //   selected.addAll(x);
+                            // });
+                            // }
+
+                            // log("x:${vsl!.value}");
+                            // log("x:${selected.elementAt(0).value}");
                           },
                         ),
                         //                 DropDownMultiSelect(

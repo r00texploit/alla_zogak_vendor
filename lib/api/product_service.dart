@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -126,13 +127,14 @@ Future<ResponseModel> addProductOtpValues(Map<String, dynamic> data) async {
       if (kDebugMode) {
         print(e.response?.data);
       }
+      log("catch:${e.response!.data}");
       return ResponseModel.fromJson(e.response?.data);
     }
   }
   return ResponseModel(success: false);
 }
 
-Future<ResponseModel> updateOtpValues(int id,Map<String, dynamic> data) async {
+Future<ResponseModel> updateOtpValues(int id, Map<String, dynamic> data) async {
   try {
     final sh = await SharedPreferences.getInstance();
     final res = await dio.put(
@@ -154,7 +156,8 @@ Future<ResponseModel> updateOtpValues(int id,Map<String, dynamic> data) async {
   return ResponseModel(success: false);
 }
 
-Future<ResponseModel> updateProductDetails(int id, Map<String, dynamic> data) async {
+Future<ResponseModel> updateProductDetails(
+    int id, Map<String, dynamic> data) async {
   try {
     final sh = await SharedPreferences.getInstance();
     final res = await dio.put(
@@ -205,10 +208,7 @@ Future<ResponseModel> updateProductImage(
   return ResponseModel(success: false);
 }
 
-
-
-Future<ResponseModel> changeProductCover(
-    int id) async {
+Future<ResponseModel> changeProductCover(int id) async {
   try {
     final sh = await SharedPreferences.getInstance();
     final res = await dio.post(
@@ -236,10 +236,7 @@ Future<ResponseModel> changeProductCover(
   return ResponseModel(success: false);
 }
 
-
-
-Future<ResponseModel> productDetails(
-    int id) async {
+Future<ResponseModel> productDetails(int id) async {
   try {
     final sh = await SharedPreferences.getInstance();
     final res = await dio.get(

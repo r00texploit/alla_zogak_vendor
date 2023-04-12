@@ -23,6 +23,31 @@ Future<ResponseModel> login(Map<String, dynamic> data) async {
   return ResponseModel(success: false);
 }
 
+// Future<ResponseModel> getProfile() async {
+//   try {
+//     final sh = await SharedPreferences.getInstance();
+//     final res = await dio.get(
+//       "/customers/get-profile",
+//       options: Options(
+//         headers: {"token": sh.getString("token")},
+//       ),
+//     );
+//     return ResponseModel.fromJson(res.data);
+//   } catch (e) {
+//     if (e is DioError) {
+//       if (kDebugMode) {
+//         print(e.message);
+//       }
+//       final dt = ResponseModel.fromJson({'status': false});
+//       dt.setStatus(500);
+//       return dt;
+//     }
+//   }
+//   final da = ResponseModel(success: false, statusCode: 500);
+//   da.setStatus(500);
+//   return da;
+// }
+
 Future<ResponseModel> getMyProfile() async {
   try {
     final resp;
